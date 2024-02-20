@@ -2,3 +2,5 @@ dst/
 obj/
 .vscode/
 build/
+*.nds
+*.elf
