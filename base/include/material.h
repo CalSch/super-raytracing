@@ -12,6 +12,8 @@ typedef struct {
     vec3 color;
 } Material;
 
+Material makeMaterial();
+
 #ifdef __cplusplus
 }
 #endif

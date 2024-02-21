@@ -18,6 +18,7 @@ typedef struct {
     bool didHit;
     vec3 point;
     vec3 normal;
+    float dist;
 } HitInfo;
 
 HitInfo makeHitInfo();

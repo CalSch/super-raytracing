@@ -4,14 +4,14 @@
 
 #include "vec3.h"
 #include "ray.h"
-#include "transform.h"
-#include "camera.h"
+#include "scene.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
+void castRay(Ray r, Scene scene, HitInfo *hit, Object *obj);
+vec3 traceRay(Ray r, Scene scene);
 
 #ifdef __cplusplus
 }

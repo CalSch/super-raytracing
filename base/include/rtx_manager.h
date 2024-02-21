@@ -6,6 +6,7 @@
 #include "ray.h"
 #include "transform.h"
 #include "camera.h"
+#include "scene.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,6 +20,8 @@ typedef struct {
 
 typedef struct {
     Camera cam;
+    Scene scene;
+    
     int width;
     int height;
     RGB *buf1;

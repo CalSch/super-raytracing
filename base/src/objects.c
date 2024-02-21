@@ -1,6 +1,15 @@
 #include <stdbool.h>
 #include "objects.h"
 #include "ray.h"
+#include "material.h"
+
+Object makeSphere(vec3 pos, float radius, Material mat) {
+    Object o;
+    o.mat=mat;
+    o.type=ObjectTypeSphere;
+    o.mesh.sphere=(Sphere){pos,radius};
+    return o;
+}
 
 HitInfo intersectRaySphere(Ray r, Sphere s) {
     HitInfo hit = makeHitInfo();
@@ -22,6 +31,7 @@ HitInfo intersectRaySphere(Ray r, Sphere s) {
             hit.didHit = true;
             hit.point = vec3Add(r.origin, vec3Scale(r.dir, dst));
             hit.normal = vec3Normalize(vec3Sub(hit.point,s.pos));
+            hit.dist = dst;
         }
     }
 
