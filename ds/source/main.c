@@ -83,6 +83,9 @@ int main(int argc, char **argv)
 
         // Wait for the screen refresh
         swiWaitForVBlank();
+
+        rtx.time++;
+        RTXRender(&rtx);
     }
 
     return 0;

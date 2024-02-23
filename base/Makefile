@@ -2,7 +2,7 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 
 CC := gcc
 AR := ar
-CFLAGS := -Iinclude
+CFLAGS := -Iinclude -ffast-math -O3 -Wall
 
 SRC := $(call rwildcard,src,*.c)
 OUT_DIR := dst

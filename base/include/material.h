@@ -9,7 +9,11 @@ extern "C" {
 #endif
 
 typedef struct {
-    vec3 color;
+    vec3 diffuseColor;
+    vec3 specularColor;
+    float specularChance;
+    vec3 emissionColor;
+    float emissionStrength;
 } Material;
 
 Material makeMaterial();

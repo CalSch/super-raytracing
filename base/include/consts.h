@@ -14,7 +14,8 @@
 #define MAGENTA (vec3){1,0,1}
 #define YELLOW  (vec3){1,1,0}
 
-#define MAX_RAY_BOUNCES 1
+#define MAX_RAY_BOUNCES 8
+#define RAYS_PER_PIXEL 40
 
 
 #endif // #ifndef _CONSTANTS_H

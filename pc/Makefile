@@ -1,7 +1,7 @@
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
 CXX      := -g++
-CXXFLAGS := -std=c++17 -O1 -I../base/include
+CXXFLAGS := -std=c++17 -O3 -ffast-math -I../base/include
 LDFLAGS  := -L/usr/lib -L../base/dst -lstdc++ -lm -ldl -pthread -lraylib -lrtx
 BUILD    := ./dst
 OBJ_DIR  := ./obj

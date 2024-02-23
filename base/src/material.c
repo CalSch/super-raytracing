@@ -3,7 +3,11 @@
 
 Material makeMaterial() {
     Material m;
-    m.color = BLACK;
+    m.diffuseColor = BLACK;
+    m.specularColor = BLACK;
+    m.specularChance = 0;
+    m.emissionStrength = 0;
+    m.emissionColor = BLACK;
 
     return m;
 }

@@ -56,6 +56,7 @@ Ray getCameraRay(Camera cam, int x, int y) {
         ),
         vec3Scale(cam.transform.forwards,pointLocal.z)
     );
+    // vec3 point = (vec3){0,0,0};
 
     Ray r = {cam.transform.pos, point};
 
