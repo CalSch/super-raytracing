@@ -14,7 +14,7 @@ int main() {
     printf("hi\n");
     rtx = makeRTXManager(WIDTH,HEIGHT);
 
-    RTXRender(&rtx);
+    RTXTick(&rtx);
 
     printf("\nCamera\n");
     printf("\t position       = (%f, %f, %f)\n",rtx.cam.transform.pos.x,rtx.cam.transform.pos.y,rtx.cam.transform.pos.z);
@@ -37,6 +37,8 @@ int main() {
 
     while (!rl::WindowShouldClose()) {
         RTXRender(&rtx);
+        // RTXRenderChunk(&rtx,40,40,64,64);
+        
         rl::BeginDrawing();
         rl::ClearBackground(rl::BLACK);
 

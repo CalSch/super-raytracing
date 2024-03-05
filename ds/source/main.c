@@ -11,9 +11,14 @@
 #include <nf_lib.h>
 #include "rtx_manager.h"
 
+
 int main(int argc, char **argv)
 {
     RTXManager rtx = makeRTXManager(256,192);
+    int chunkX = 0;
+    int chunkY = 0;
+    int chunkW = 16;
+    int chunkH = 16;
     // Initialize 2D engine in both screens and use mode 5
     NF_Set2D(0, 5);
     NF_Set2D(1, 5);
@@ -53,10 +58,26 @@ int main(int argc, char **argv)
     // Wait for the screen refresh
     swiWaitForVBlank();
 
-    RTXRender(&rtx);
+    // RTXRenderChunk(&rtx,0,0,16,16);
+    // RTXRender(&rtx);
+    RTXTick(&rtx);
+
+    // timerStart(1,ClockDivider_1,10000000,NULL);
 
     while (1)
     {
+        RTXRenderChunk(&rtx,chunkX,chunkY,chunkW,chunkH);
+        chunkX += chunkW;
+        if (chunkX+chunkW >= 256) {
+            chunkX = 0;
+            chunkY += chunkH;
+        }
+        if (chunkY+chunkH >= 192) {
+            chunkY=0;
+            chunkX=0;
+            RTXTick(&rtx);
+            // timerStop();
+        }
         int i=0;
         // Fill buffer
         for (int y = 0; y < 192; y++)
@@ -85,7 +106,6 @@ int main(int argc, char **argv)
         swiWaitForVBlank();
 
         rtx.time++;
-        RTXRender(&rtx);
     }
 
     return 0;

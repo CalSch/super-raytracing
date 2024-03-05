@@ -30,6 +30,9 @@ typedef struct {
 } RTXManager;
 
 RTXManager makeRTXManager(int width, int height);
+
+void RTXTick(RTXManager *rtx);
+void RTXRenderChunk(RTXManager *rtx, int cx, int cy, int cw, int ch);
 void RTXRender(RTXManager *rtx);
 
 #ifdef __cplusplus

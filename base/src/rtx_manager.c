@@ -86,10 +86,10 @@ void RTXTick(RTXManager *rtx) {
     rtx->time += 0.05;
 
 }
-void RTXRender(RTXManager *rtx) {
-    int i=0;
-    for (int y=0;y<rtx->height;y++) {
-        for (int x=0;x<rtx->width;x++) {
+void RTXRenderChunk(RTXManager *rtx, int cx, int cy, int cw, int ch) {
+    int i = cx + cy*rtx->width;
+    for (int y=cy; y<min(rtx->height, cy+ch); y++) {
+        for (int x=cx; x<min(rtx->width, cx+cw); x++) {
             Ray r = getCameraRay(rtx->cam,x,y);
             vec3 color = BLACK;
 
@@ -106,5 +106,9 @@ void RTXRender(RTXManager *rtx) {
             rtx->buf1[i] = rgb;
             i++;
         }
+        i += rtx->width - cw;
     }
+}
+void RTXRender(RTXManager *rtx) {
+    RTXRenderChunk(rtx, 0, 0, rtx->width, rtx->height);
 }
