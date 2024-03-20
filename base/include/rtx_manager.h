@@ -19,6 +19,11 @@ typedef struct {
 } RGB;
 
 typedef struct {
+    int raysPerPixel;
+    int maxBounces;
+} RTXConfig;
+
+typedef struct {
     Camera cam;
     Scene scene;
     
@@ -27,6 +32,9 @@ typedef struct {
     RGB *buf1;
     RGB *buf2;
     float time;
+    int currentSamples;
+
+    RTXConfig config;
 } RTXManager;
 
 RTXManager makeRTXManager(int width, int height);

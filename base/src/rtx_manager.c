@@ -24,7 +24,7 @@ RTXManager makeRTXManager(int width, int height) {
     sceneAddObject(&rtx.scene, makeSphere(
         (vec3){0,0,0}, 2.5,
         (Material){
-            (vec3){0.7,0.8,0.9},
+            (vec3){0.2,0.8,0.4},
             (vec3){0.7,0.8,0.9},
             0.1,
             BLACK,
@@ -45,8 +45,8 @@ RTXManager makeRTXManager(int width, int height) {
         (vec3){-3.5,0,-12}, 4.0,
         (Material){
             (vec3){0.4,0.4,0.4},
-            (vec3){0.9,0.9,0.9},
-            0.9,
+            (vec3){0.8,0.4,0.9},
+            0.7,
             BLACK,
             0
         }
@@ -58,7 +58,10 @@ RTXManager makeRTXManager(int width, int height) {
             BLACK,
             0,
             BLACK,
-            0
+            0,
+            true,
+            (vec3){0.2,0.3,0.8},
+            10.0
         }
     ));
 
@@ -74,6 +77,11 @@ RTXManager makeRTXManager(int width, int height) {
         rtx.buf2[i]=(RGB){0,0,0};
     }
     rtx.time = 2;
+    rtx.currentSamples = 0;
+    
+    rtx.config.maxBounces = 6;
+    rtx.config.raysPerPixel = 10;
+
     return rtx;
 }
 void RTXTick(RTXManager *rtx) {
@@ -93,8 +101,8 @@ void RTXRenderChunk(RTXManager *rtx, int cx, int cy, int cw, int ch) {
             Ray r = getCameraRay(rtx->cam,x,y);
             vec3 color = BLACK;
 
-            for (int j=0;j<RAYS_PER_PIXEL;j++) {
-                color = vec3Add(color,vec3Scale(traceRay(r,rtx->scene),1.0/(float)RAYS_PER_PIXEL));
+            for (int j=0;j<rtx->config.raysPerPixel;j++) {
+                color = vec3Add(color,vec3Scale(traceRay(rtx,r,rtx->scene),1.0/(float)rtx->config.raysPerPixel));
             }
             
             RGB rgb = {

@@ -18,9 +18,28 @@ int writeToPPM(const char *filename, RTXManager r) {
     return 0;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     printf("Hello world\n");
-    rtx = makeRTXManager(1000,1000);
+    int width = 200;
+    int height = 200;
+    for (int i=0;i<argc;i++) {
+        printf("argv[%d]=\"%s\"\n",i,argv[i]);
+        switch (i)
+        {
+        case 1:
+            width = atoi(argv[i]);
+            printf("\twidth=%d\n",width);
+            break;
+        case 2:
+            height = atoi(argv[i]);
+            printf("\theight=%d\n",height);
+            break;
+        
+        default:
+            break;
+        }
+    }
+    rtx = makeRTXManager(width,height);
     printf("RTX init\n");
     RTXRender(&rtx);
     printf("Rendered\n");

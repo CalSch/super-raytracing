@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "gfx.h"
 #include "vec3.h"
 #include "scene.h"
@@ -7,6 +8,7 @@
 #include "ray.h"
 #include "consts.h"
 #include "util.h"
+#include "rtx_manager.h"
 
 
 void castRay(Ray r, Scene scene, HitInfo *hit, Object *obj) {
@@ -33,11 +35,11 @@ void castRay(Ray r, Scene scene, HitInfo *hit, Object *obj) {
     *hit = closestHit;
     *obj = closestObject;
 }
-vec3 traceRay(Ray r, Scene scene) {
+vec3 traceRay(RTXManager *rtx, Ray r, Scene scene) {
     vec3 rayColor=(vec3){1,1,1};
     vec3 incomingLight=(vec3){0,0,0};
 
-    for (int i=0;i<MAX_RAY_BOUNCES;i++) {
+    for (int i=0;i<rtx->config.maxBounces;i++) {
         HitInfo hit = makeHitInfo();
         Object obj = {ObjectTypeNone,makeMaterial(),{}};
         castRay(r,scene,&hit,&obj);
@@ -58,9 +60,19 @@ vec3 traceRay(Ray r, Scene scene) {
             if (vec3Distance(emittedLight) > 2) {
                 break;
             }
+            vec3 diffuseColor = obj.mat.diffuseColor;
+            if (obj.mat.checker) {
+                if (
+                    (fmodf(fabsf(hit.point.x)+hit.point.x/fabsf(hit.point.x)*obj.mat.checkerScale/4+1.0,obj.mat.checkerScale)<obj.mat.checkerScale/2) ^
+                    (fmodf(fabsf(hit.point.y)+hit.point.y/fabsf(hit.point.y)*obj.mat.checkerScale/4+1.0,obj.mat.checkerScale)<obj.mat.checkerScale/2) ^
+                    (fmodf(fabsf(hit.point.z)+hit.point.z/fabsf(hit.point.z)*obj.mat.checkerScale/4+1.0,obj.mat.checkerScale)<obj.mat.checkerScale/2)
+                ) {
+                    diffuseColor = obj.mat.checkerColor;
+                }
+            }
             rayColor = vec3Mult(
                 rayColor,
-                isSpecularBounce ? obj.mat.specularColor : obj.mat.diffuseColor
+                isSpecularBounce ? obj.mat.specularColor : diffuseColor
             );
 
             // rayColor = vec3Scale(rayColor, 0);

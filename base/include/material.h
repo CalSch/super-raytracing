@@ -3,6 +3,7 @@
 #define _MATERIAL_H
 
 #include "vec3.h"
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -14,6 +15,9 @@ typedef struct {
     float specularChance;
     vec3 emissionColor;
     float emissionStrength;
+    bool checker;
+    vec3 checkerColor;
+    float checkerScale;
 } Material;
 
 Material makeMaterial();
