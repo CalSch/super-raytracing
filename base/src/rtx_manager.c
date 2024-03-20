@@ -42,10 +42,10 @@ RTXManager makeRTXManager(int width, int height) {
         }
     ));
     sceneAddObject(&rtx.scene, makeSphere(
-        (vec3){-3.5,0,-12}, 4.0,
+        (vec3){-3.5,1,-12}, 4.0,
         (Material){
             (vec3){0.4,0.4,0.4},
-            (vec3){0.8,0.4,0.9},
+            (vec3){0.8,0.8,0.9},
             0.7,
             BLACK,
             0
@@ -98,10 +98,10 @@ void RTXRenderChunk(RTXManager *rtx, int cx, int cy, int cw, int ch) {
     int i = cx + cy*rtx->width;
     for (int y=cy; y<min(rtx->height, cy+ch); y++) {
         for (int x=cx; x<min(rtx->width, cx+cw); x++) {
-            Ray r = getCameraRay(rtx->cam,x,y);
             vec3 color = BLACK;
 
             for (int j=0;j<rtx->config.raysPerPixel;j++) {
+                Ray r = getCameraRay(rtx->cam,(float)x + randomFloat(), (float)y + randomFloat()); // Add randomness for anti-aliasing
                 color = vec3Add(color,vec3Scale(traceRay(rtx,r,rtx->scene),1.0/(float)rtx->config.raysPerPixel));
             }
             

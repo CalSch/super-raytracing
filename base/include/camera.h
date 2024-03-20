@@ -24,7 +24,7 @@ typedef struct {
 
 Camera makeCamera(vec3 pos, vec3 forwards, vec3 up, int resX, int resY, float fov);
 void updateCameraFOV(Camera *cam, float fov);
-Ray getCameraRay(Camera cam, int x, int y);
+Ray getCameraRay(Camera cam, float x, float y);
 void cameraLookAt(Camera *cam, vec3 focus);
 
 #ifdef __cplusplus

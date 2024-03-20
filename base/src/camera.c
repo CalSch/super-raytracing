@@ -33,7 +33,7 @@ void updateCameraFOV(Camera *cam, float fov) {
     };
 }
 
-Ray getCameraRay(Camera cam, int x, int y) {
+Ray getCameraRay(Camera cam, float x, float y) {
     float tx = (float)x / (float)cam.resX;
     float ty = (float)y / (float)cam.resY;
 
