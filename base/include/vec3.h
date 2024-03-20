@@ -71,7 +71,7 @@ static inline vec3 vec3Cross(vec3 v1, vec3 v2) {
     };
 }
 static inline vec3 vec3Reflect(vec3 v, vec3 norm) {
-    return vec3Sub(vec3Scale(norm, -2 * vec3Dot(norm, v)), v);
+    return vec3Sub(v, vec3Scale(norm, 2 * vec3Dot(norm, v)));
 }
 
 #ifdef __cplusplus
