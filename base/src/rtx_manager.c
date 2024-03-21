@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "rtx_manager.h"
 #include "vec3.h"
 #include "ray.h"
@@ -8,6 +9,8 @@
 #include "consts.h"
 #include "objects.h"
 #include "gfx.h"
+
+static void dummyCallback(int) {}
 
 RTXManager makeRTXManager(int width, int height) {
     RTXManager rtx;
@@ -78,6 +81,8 @@ RTXManager makeRTXManager(int width, int height) {
     }
     rtx.time = 2;
     rtx.currentSamples = 0;
+
+    rtx.lineRenderCallback = dummyCallback;
     
     rtx.config.maxBounces = 6;
     rtx.config.raysPerPixel = 10;
@@ -96,6 +101,8 @@ void RTXTick(RTXManager *rtx) {
 }
 void RTXRenderChunk(RTXManager *rtx, int cx, int cy, int cw, int ch) {
     int i = cx + cy*rtx->width;
+    float weight = min(1.0/((float)rtx->currentSamples+1.0),1.0);
+    printf("sample=%d\nweight=%f\n",rtx->currentSamples,weight);
     for (int y=cy; y<min(rtx->height, cy+ch); y++) {
         for (int x=cx; x<min(rtx->width, cx+cw); x++) {
             vec3 color = BLACK;
@@ -104,19 +111,37 @@ void RTXRenderChunk(RTXManager *rtx, int cx, int cy, int cw, int ch) {
                 Ray r = getCameraRay(rtx->cam,(float)x + randomFloat(), (float)y + randomFloat()); // Add randomness for anti-aliasing
                 color = vec3Add(color,vec3Scale(traceRay(rtx,r,rtx->scene),1.0/(float)rtx->config.raysPerPixel));
             }
-            
-            RGB rgb = {
-                (unsigned char)(clamp(color.x,0,1) * 255.0),
-                (unsigned char)(clamp(color.y,0,1) * 255.0),
-                (unsigned char)(clamp(color.z,0,1) * 255.0)
-            };
 
-            rtx->buf1[i] = rgb;
+            vec3 rgb = {
+                (color.x * 255.0),
+                (color.y * 255.0),
+                (color.z * 255.0)
+            };
+            // bool print = (x==47 && y==50);
+            // if (print)
+            //     printf("color=(%f,%f,%f)\n",rgb.x,rgb.y,rgb.z);
+
+            RGB oldColor = rtx->buf1[i];
+            // if (print)
+            //     printf("old color=(%d,%d,%d)\n",oldColor.r,oldColor.g,oldColor.b);
+
+            RGB newColor = {
+                (unsigned char)(clamp(lerp(oldColor.r, rgb.x, weight),0,255)),
+                (unsigned char)(clamp(lerp(oldColor.g, rgb.y, weight),0,255)),
+                (unsigned char)(clamp(lerp(oldColor.b, rgb.z, weight),0,255)),
+            };
+            // if (print)
+            //     printf("new color=(%d,%d,%d)\n",newColor.r,newColor.g,newColor.b);
+
+
+            rtx->buf1[i] = newColor;
             i++;
         }
+        rtx->lineRenderCallback(y);
         i += rtx->width - cw;
     }
 }
 void RTXRender(RTXManager *rtx) {
     RTXRenderChunk(rtx, 0, 0, rtx->width, rtx->height);
+    rtx->currentSamples++;
 }

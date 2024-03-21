@@ -34,6 +34,8 @@ typedef struct {
     float time;
     int currentSamples;
 
+    void (*lineRenderCallback)(int);
+
     RTXConfig config;
 } RTXManager;
 

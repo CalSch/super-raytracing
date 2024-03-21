@@ -37,11 +37,17 @@ int writeToBMP(char *filename, RTXManager r) {
     return 0;
 }
 
+void onLineRender(int line) {
+    if (line%50 == 0)
+        printf("\t Rendered line %d/%d (%.02f%%)\n",line,rtx.height,(float)line/(float)rtx.height*100.0);
+}
+
 int main(int argc, char *argv[]) {
     printf("Hello world\n");
     int width = 200;
     int height = 200;
     int raysPerPixel = 20;
+    int samples = 1;
     for (int i=0;i<argc;i++) {
         printf("argv[%d]=\"%s\"\n",i,argv[i]);
         switch (i)
@@ -58,6 +64,10 @@ int main(int argc, char *argv[]) {
             raysPerPixel = atoi(argv[i]);
             printf("\trays per pixel=%d\n",raysPerPixel);
             break;
+        case 4:
+            samples = atoi(argv[i]);
+            printf("\tsamples=%d\n",samples);
+            break;
         
         default:
             break;
@@ -65,9 +75,15 @@ int main(int argc, char *argv[]) {
     }
     rtx = makeRTXManager(width,height);
     rtx.config.raysPerPixel = raysPerPixel;
+    rtx.lineRenderCallback = onLineRender;
     printf("RTX init\n");
-    RTXRender(&rtx);
-    printf("Rendered\n");
+
+    for (int i=0;i<samples;i++) {
+        printf("Starting sample %d\n",i);
+        RTXRender(&rtx);
+        printf("Rendered sample %d\n",i);
+        writeToBMP("out.bmp",rtx);
+    }
 
     // writeToPPM("thing.ppm",rtx);
     writeToBMP("out.bmp",rtx);
