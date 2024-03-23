@@ -47,6 +47,7 @@ vec3 traceRay(RTXManager *rtx, Ray r, Scene scene) {
         if (hit.didHit) {
             vec3 diffuseDir = vec3Add(hit.normal, randomDirection());
             vec3 specularDir = vec3Reflect(r.dir, hit.normal);
+            specularDir = lerpVec(specularDir, diffuseDir, obj.mat.roughness);
     
             bool isSpecularBounce = randomFloat() <= obj.mat.specularChance;
             r.dir = isSpecularBounce ? specularDir : diffuseDir;

@@ -23,49 +23,46 @@ RTXManager makeRTXManager(int width, int height) {
         width, height,
         60
     );
+    
     rtx.scene = makeScene();
+
+    // green ball
+    Material greenBallMat = makeMaterial();
+    greenBallMat.diffuseColor = (vec3){0.2,0.8,0.4};
     sceneAddObject(&rtx.scene, makeSphere(
         (vec3){0,0,0}, 2.5,
-        (Material){
-            (vec3){0.2,0.8,0.4},
-            (vec3){0.7,0.8,0.9},
-            0.1,
-            BLACK,
-            0
-        }
+        greenBallMat
     ));
+    
+    // light
+    Material lightMat = makeMaterial();
+    lightMat.emissionColor = WHITE;
+    lightMat.emissionStrength = 180.0;
     sceneAddObject(&rtx.scene, makeSphere(
-        (vec3){2.3,-0.2,0}, 1.65,
-        (Material){
-            BLACK,
-            BLACK,
-            0,
-            (vec3){0.8,0.6,0.2},
-            10
-        }
+        (vec3){-35,5,-20}, 4,
+        lightMat
     ));
+
+    // shiny ball
+    Material shinyBallMat = makeMaterial();
+    shinyBallMat.diffuseColor  = vec3Scale(WHITE, 0.5);
+    shinyBallMat.specularColor = vec3Scale(WHITE, 0.5);
+    shinyBallMat.specularChance = 0.8;
+    shinyBallMat.roughness = 0.2;
     sceneAddObject(&rtx.scene, makeSphere(
         (vec3){-3.5,1,-12}, 4.0,
-        (Material){
-            (vec3){0.4,0.4,0.4},
-            (vec3){0.8,0.8,0.9},
-            0.7,
-            BLACK,
-            0
-        }
+        shinyBallMat
     ));
+
+    // floor ball
+    Material floorMat = makeMaterial();
+    floorMat.diffuseColor = (vec3){0.8,0.3,0.1};
+    floorMat.checker = true;
+    floorMat.checkerColor = (vec3){0.2,0.3,0.8};
+    floorMat.checkerScale = 10.0;
     sceneAddObject(&rtx.scene, makeSphere(
         (vec3){0,-100,0}, 98.0,
-        (Material){
-            (vec3){0.8,0.3,0.1},
-            BLACK,
-            0,
-            BLACK,
-            0,
-            true,
-            (vec3){0.2,0.3,0.8},
-            10.0
-        }
+        floorMat
     ));
 
     rtx.cam.transform.pos.x=10;
@@ -90,8 +87,6 @@ RTXManager makeRTXManager(int width, int height) {
     return rtx;
 }
 void RTXTick(RTXManager *rtx) {
-    rtx->scene.objects[1].mesh.sphere.pos.z = sinf(rtx->time * 1.5) * 7.0;
-    rtx->scene.objects[1].mesh.sphere.pos.x = cosf(rtx->time * 1.5) * 4.0;
     // rtx->cam.transform.pos.x=sinf(rtx->time) * 10;
     // rtx->cam.transform.pos.z=cosf(rtx->time) * 10;
     // rtx->cam.transform.pos.y=10;

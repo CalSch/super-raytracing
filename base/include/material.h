@@ -11,10 +11,14 @@ extern "C" {
 
 typedef struct {
     vec3 diffuseColor;
+
     vec3 specularColor;
     float specularChance;
+    float roughness;
+
     vec3 emissionColor;
     float emissionStrength;
+    
     bool checker;
     vec3 checkerColor;
     float checkerScale;
