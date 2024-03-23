@@ -5,4 +5,4 @@ build/
 *.nds
 *.elf
 *.ppm
-*.bmp
+out.bmp
