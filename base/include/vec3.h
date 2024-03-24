@@ -74,6 +74,12 @@ static inline vec3 vec3Reflect(vec3 v, vec3 norm) {
     return vec3Sub(v, vec3Scale(norm, 2 * vec3Dot(norm, v)));
 }
 
+static inline vec3 vec3Rotate(vec3 v, vec3 axis, float theta) {
+    // return v*cos(theta) + cross(axis,v)*sin(theta) + axis*dot(axis,v)*(1-cos(theta))
+    // Wow thats a lot of stuff!
+    return vec3Add(vec3Scale(v,cos(theta)),vec3Add(vec3Scale(vec3Cross(axis,v),sin(theta)),vec3Scale(axis,vec3Dot(axis,v)*(1.0-cos(theta)))));
+}
+
 #ifdef __cplusplus
 }
 #endif

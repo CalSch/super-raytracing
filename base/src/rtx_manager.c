@@ -94,6 +94,14 @@ void RTXTick(RTXManager *rtx) {
     rtx->time += 0.05;
 
 }
+
+void RTXResetRender(RTXManager *rtx) {
+    rtx->currentSamples = 0;
+    for (int i=0;i<rtx->width*rtx->height;i++) {
+        rtx->buf1[i] = (RGB){0,0,0};
+    }
+}
+
 void RTXRenderChunk(RTXManager *rtx, int cx, int cy, int cw, int ch) {
     int i = cx + cy*rtx->width;
     float weight = min(1.0/((float)rtx->currentSamples+1.0),1.0);

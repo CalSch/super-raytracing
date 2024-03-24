@@ -13,6 +13,7 @@ RTXManager rtx;
 int main() {
     printf("hi\n");
     rtx = makeRTXManager(WIDTH,HEIGHT);
+    rtx.config.raysPerPixel=2;
 
     RTXTick(&rtx);
 
@@ -36,11 +37,35 @@ int main() {
     rl::InitWindow(WIDTH,HEIGHT,"hi");
 
     while (!rl::WindowShouldClose()) {
+        if (rl::IsMouseButtonDown(rl::MOUSE_LEFT_BUTTON)) {
+            rotateTransform(&rtx.cam.transform,rtx.cam.transform.up,rl::GetMouseDelta().x/100);
+            rotateTransform(&rtx.cam.transform,rtx.cam.transform.right,rl::GetMouseDelta().y/100);
+            resetTransformRoll(&rtx.cam.transform);
+            RTXResetRender(&rtx);
+        }
+        float moveAmount = rl::GetFrameTime()*6;
+        if (rl::IsKeyDown(rl::KEY_W)) {
+            rtx.cam.transform.pos = vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.forwards,moveAmount));
+            RTXResetRender(&rtx);
+        }
+        if (rl::IsKeyDown(rl::KEY_A)) {
+            rtx.cam.transform.pos = vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.right,-moveAmount));
+            RTXResetRender(&rtx);
+        }
+        if (rl::IsKeyDown(rl::KEY_S)) {
+            rtx.cam.transform.pos = vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.forwards,-moveAmount));
+            RTXResetRender(&rtx);
+        }
+        if (rl::IsKeyDown(rl::KEY_D)) {
+            rtx.cam.transform.pos = vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.right,moveAmount));
+            RTXResetRender(&rtx);
+        }
+
         RTXRender(&rtx);
         // RTXRenderChunk(&rtx,40,40,64,64);
         
         rl::BeginDrawing();
-        rl::ClearBackground(rl::BLACK);
+        rl::ClearBackground((rl::Color){ 0, 0, 0, 255 }); // Can't use BLACK because it's redefined in the raytracing
 
         int i=0;
         for (int y=0;y<256;y++) {

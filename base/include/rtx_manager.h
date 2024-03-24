@@ -7,6 +7,7 @@
 #include "transform.h"
 #include "camera.h"
 #include "scene.h"
+#include "consts.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,6 +43,7 @@ typedef struct {
 RTXManager makeRTXManager(int width, int height);
 
 void RTXTick(RTXManager *rtx);
+void RTXResetRender(RTXManager *rtx);
 void RTXRenderChunk(RTXManager *rtx, int cx, int cy, int cw, int ch);
 void RTXRender(RTXManager *rtx);
 

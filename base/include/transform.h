@@ -17,6 +17,8 @@ typedef struct {
 } Transform;
 
 void updateTransformRight(Transform *t);
+void resetTransformRoll(Transform *t);
+void rotateTransform(Transform *t, vec3 axis, float theta);
 
 #ifdef __cplusplus
 }
