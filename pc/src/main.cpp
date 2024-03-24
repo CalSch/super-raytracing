@@ -13,7 +13,7 @@ RTXManager rtx;
 int main() {
     printf("hi\n");
     rtx = makeRTXManager(WIDTH,HEIGHT);
-    rtx.config.raysPerPixel=2;
+    rtx.config.raysPerPixel=1;
 
     RTXTick(&rtx);
 
