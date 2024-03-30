@@ -46,8 +46,8 @@ RTXManager makeRTXManager(int width, int height) {
     // shiny ball
     Material shinyBallMat = makeMaterial();
     shinyBallMat.diffuseColor  = vec3Scale(WHITE, 0.5);
-    shinyBallMat.specularColor = vec3Scale(WHITE, 0.5);
-    shinyBallMat.specularChance = 0.8;
+    shinyBallMat.specularColor = vec3Scale(WHITE, 0.8);
+    shinyBallMat.specularChance = 1.0;
     shinyBallMat.roughness = 0.2;
     sceneAddObject(&rtx.scene, makeSphere(
         (vec3){-3.5,1,-12}, 4.0,
