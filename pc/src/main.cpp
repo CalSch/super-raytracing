@@ -5,8 +5,8 @@ namespace rl {
 };
 #include "rtx_manager.h"
 
-#define WIDTH 256
-#define HEIGHT 192
+#define WIDTH 400
+#define HEIGHT 300
 
 RTXManager rtx;
 
@@ -68,8 +68,8 @@ int main() {
         rl::ClearBackground((rl::Color){ 0, 0, 0, 255 }); // Can't use BLACK because it's redefined in the raytracing
 
         int i=0;
-        for (int y=0;y<256;y++) {
-            for (int x=0;x<256;x++) {
+        for (int y=0;y<HEIGHT;y++) {
+            for (int x=0;x<WIDTH;x++) {
                 RGB c=rtx.buf1[i];
                 rl::DrawPixel(x,y,{c.r,c.g,c.b,255});
                 i++;
