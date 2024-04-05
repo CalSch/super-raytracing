@@ -15,6 +15,8 @@
 int main(int argc, char **argv)
 {
     RTXManager rtx = makeRTXManager(256,192);
+    rtx.config.raysPerPixel=1;
+    rtx.config.maxBounces=3;
     int chunkX = 0;
     int chunkY = 0;
     int chunkW = 16;
@@ -60,7 +62,8 @@ int main(int argc, char **argv)
 
     // RTXRenderChunk(&rtx,0,0,16,16);
     // RTXRender(&rtx);
-    RTXTick(&rtx);
+    // RTXTick(&rtx);
+    RTXResetRender(&rtx);
 
     // timerStart(1,ClockDivider_1,10000000,NULL);
 
@@ -76,6 +79,7 @@ int main(int argc, char **argv)
             chunkY=0;
             chunkX=0;
             RTXTick(&rtx);
+            rtx.currentSamples++;
             // timerStop();
         }
         int i=0;
