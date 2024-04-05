@@ -5,6 +5,8 @@
 #define DEG2RAD PI/180.0
 #define RAD2DEG 180.0/PI
 
+#define EPSILON 0.001
+
 #define WHITE   (vec3){1,1,1}
 #define BLACK   (vec3){0,0,0}
 #define RED     (vec3){1,0,0}
