@@ -80,6 +80,21 @@ static inline vec3 vec3Rotate(vec3 v, vec3 axis, float theta) {
     return vec3Add(vec3Scale(v,cos(theta)),vec3Add(vec3Scale(vec3Cross(axis,v),sin(theta)),vec3Scale(axis,vec3Dot(axis,v)*(1.0-cos(theta)))));
 }
 
+static inline vec3 vec3Min(vec3 a, vec3 b) {
+    return (vec3){
+        fminf(a.x,b.x),
+        fminf(a.y,b.y),
+        fminf(a.z,b.z)
+    };
+}
+static inline vec3 vec3Max(vec3 a, vec3 b) {
+    return (vec3){
+        fmaxf(a.x,b.x),
+        fmaxf(a.y,b.y),
+        fmaxf(a.z,b.z)
+    };
+}
+
 #ifdef __cplusplus
 }
 #endif

@@ -26,9 +26,20 @@ RTXManager makeRTXManager(int width, int height) {
     
     rtx.scene = makeScene();
 
+    Material redMaterial = makeMaterial();
+    redMaterial.diffuseColor = (vec3){0.8,0.05,0.15};
+    redMaterial.specularColor = (vec3){0.8,0.05,0.15};
+    // redMaterial.specularChance = 1.0;
+    // redMaterial.roughness = 0.1;
+    Material greenMaterial = makeMaterial();
+    greenMaterial.diffuseColor = (vec3){0.1,0.8,0.2};
+    Material blueMaterial = makeMaterial();
+    blueMaterial.diffuseColor = (vec3){0.1,0.2,0.8};
+
     // green ball
     Material greenBallMat = makeMaterial();
     greenBallMat.diffuseColor = (vec3){0.2,0.8,0.4};
+    greenBallMat.specularColor = (vec3){0.2,0.8,0.4};
     sceneAddObject(&rtx.scene, makeSphere(
         (vec3){0,0,0}, 2.5,
         greenBallMat
@@ -57,6 +68,7 @@ RTXManager makeRTXManager(int width, int height) {
     // floor ball
     Material floorMat = makeMaterial();
     floorMat.diffuseColor = (vec3){0.8,0.3,0.1};
+    floorMat.specularColor = (vec3){0.8,0.3,0.1};
     floorMat.checker = true;
     floorMat.checkerColor = (vec3){0.2,0.3,0.8};
     floorMat.checkerScale = 10.0;
@@ -65,10 +77,28 @@ RTXManager makeRTXManager(int width, int height) {
         floorMat
     ));
 
+    // Cool triangle
+    Material triMat = makeMaterial();
+    triMat.diffuseColor = YELLOW;
+    vec3 triOrigin = (vec3){-3.5,10,-12};
+    Object tri = makeTriangle(
+        triOrigin,vec3Add(triOrigin,VEC_Y),vec3Add(triOrigin,VEC_X),
+        triMat
+    );
+    sceneAddObject(&rtx.scene, tri);
+    // sceneAddObject(&rtx.scene,makeSphere(tri.mesh.triangle.v0,0.1,redMaterial));
+    // sceneAddObject(&rtx.scene,makeSphere(tri.mesh.triangle.v1,0.1,greenMaterial));
+    // sceneAddObject(&rtx.scene,makeSphere(tri.mesh.triangle.v2,0.1,blueMaterial));
+    sceneAddObject(&rtx.scene, makeBox(
+        (vec3){-2,5,-20},
+        (vec3){1,8,-17},
+        redMaterial
+    ));
+
     rtx.cam.transform.pos.x=10;
     rtx.cam.transform.pos.y=10;
     rtx.cam.transform.pos.z=10;
-    cameraLookAt(&rtx.cam,(vec3){0,0,0});
+    cameraLookAt(&rtx.cam,triOrigin);
 
     rtx.buf1 = (RGB*)malloc(width * height * sizeof(RGB));
     rtx.buf2 = (RGB*)malloc(width * height * sizeof(RGB));

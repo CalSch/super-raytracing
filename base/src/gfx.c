@@ -18,9 +18,18 @@ void castRay(Ray r, Scene scene, HitInfo *hit, Object *obj) {
     for (int i=0;i<scene.objectCount;i++) {
         HitInfo hit=makeHitInfo();
         Object o = scene.objects[i];
+        if (!testRayBox(r,o.boundingBox)) continue;
         switch (o.type) {
             case ObjectTypeSphere:
                 hit = intersectRaySphere(r,o.mesh.sphere);
+                break;
+            case ObjectTypeTriangle:
+                hit = intersectRayTriangle(r,o.mesh.triangle);
+                // printf("hooray! %f\n",t);
+                break;
+            case ObjectTypeBox:
+                hit = intersectRayBox(r,o.mesh.box);
+                // printf("hooray! %f\n",t);
                 break;
             case ObjectTypeNone:
                 continue;
@@ -45,11 +54,14 @@ vec3 traceRay(RTXManager *rtx, Ray r, Scene scene) {
         castRay(r,scene,&hit,&obj);
         
         if (hit.didHit) {
+            // return obj.mat.diffuseColor;
             vec3 diffuseDir = vec3Add(hit.normal, randomDirection());
             vec3 specularDir = vec3Reflect(r.dir, hit.normal);
+            // diffuseDir = specularDir;
             specularDir = lerpVec(specularDir, diffuseDir, obj.mat.roughness);
     
             bool isSpecularBounce = randomFloat() <= obj.mat.specularChance;
+            // bool isSpecularBounce = true;
             r.dir = isSpecularBounce ? specularDir : diffuseDir;
             r.origin = vec3Add(hit.point, vec3Scale(r.dir, 0.01));
 
