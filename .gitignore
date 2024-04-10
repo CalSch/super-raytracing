@@ -6,3 +6,4 @@ build/
 *.elf
 *.ppm
 out.bmp
+gmon.out
