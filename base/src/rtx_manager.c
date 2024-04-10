@@ -67,7 +67,7 @@ RTXManager makeRTXManager(int width, int height) {
 
     // floor ball
     Material floorMat = makeMaterial();
-    floorMat.diffuseColor = (vec3){0.8,0.3,0.1};
+    floorMat.diffuseColor = (vec3){0.8,0.15,0.1};
     floorMat.specularColor = (vec3){0.8,0.3,0.1};
     floorMat.checker = true;
     floorMat.checkerColor = (vec3){0.2,0.3,0.8};
