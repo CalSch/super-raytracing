@@ -50,7 +50,8 @@ vec3 traceRay(RTXManager *rtx, Ray r, Scene scene) {
 
     for (int i=0;i<rtx->config.maxBounces;i++) {
         HitInfo hit = makeHitInfo();
-        Object obj = {ObjectTypeNone,makeMaterial(),{}};
+        // Object obj = {ObjectTypeNone,makeMaterial(),{}};
+        Object obj;
         castRay(r,scene,&hit,&obj);
         
         if (hit.didHit) {
@@ -63,6 +64,7 @@ vec3 traceRay(RTXManager *rtx, Ray r, Scene scene) {
             bool isSpecularBounce = randomFloat() <= obj.mat.specularChance;
             // bool isSpecularBounce = true;
             r.dir = isSpecularBounce ? specularDir : diffuseDir;
+            r.idir = vec3Div(VEC1,r.dir);
             r.origin = vec3Add(hit.point, vec3Scale(r.dir, 0.01));
 
             vec3 emittedLight = vec3Scale(obj.mat.emissionColor, obj.mat.emissionStrength);

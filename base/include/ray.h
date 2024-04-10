@@ -12,6 +12,7 @@ extern "C" {
 typedef struct {
     vec3 origin;
     vec3 dir;
+    vec3 idir;
 } Ray;
 
 typedef struct {

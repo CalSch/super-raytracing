@@ -129,8 +129,8 @@ HitInfo intersectRayTriangle(Ray r, Triangle tri) {
 
 HitInfo intersectRayBox(Ray r, Box b) {
     HitInfo hit = makeHitInfo();
-    vec3 tMin = vec3Div(vec3Sub(b.min,r.origin),r.dir);
-    vec3 tMax = vec3Div(vec3Sub(b.max,r.origin),r.dir);
+    vec3 tMin = vec3Mult(vec3Sub(b.min,r.origin),r.idir);
+    vec3 tMax = vec3Mult(vec3Sub(b.max,r.origin),r.idir);
     vec3 t1 = vec3Min(tMin, tMax);
     vec3 t2 = vec3Max(tMin, tMax);
     float tNear = max(max(t1.x, t1.y), t1.z);
@@ -147,8 +147,8 @@ HitInfo intersectRayBox(Ray r, Box b) {
 };
 
 bool testRayBox(Ray r, Box b) {
-    vec3 tMin = vec3Div(vec3Sub(b.min,r.origin),r.dir);
-    vec3 tMax = vec3Div(vec3Sub(b.max,r.origin),r.dir);
+    vec3 tMin = vec3Mult(vec3Sub(b.min,r.origin),r.idir);
+    vec3 tMax = vec3Mult(vec3Sub(b.max,r.origin),r.idir);
     vec3 t1 = vec3Min(tMin, tMax);
     vec3 t2 = vec3Max(tMin, tMax);
     float tNear = max(max(t1.x, t1.y), t1.z);

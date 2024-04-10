@@ -58,7 +58,7 @@ Ray getCameraRay(Camera cam, float x, float y) {
     );
     // vec3 point = (vec3){0,0,0};
 
-    Ray r = {cam.transform.pos, point};
+    Ray r = {cam.transform.pos, point, vec3Div(VEC1, point)};
 
     return r;
 }
