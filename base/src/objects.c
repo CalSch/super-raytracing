@@ -12,8 +12,8 @@ Object makeSphere(vec3 pos, float radius, Material mat) {
     o.type = ObjectTypeSphere;
     o.mesh.sphere = (Sphere){pos,radius};
     o.boundingBox = (Box){
-        vec3Sub(pos,vec3Scale(VEC1,radius-0.5)),
-        vec3Add(pos,vec3Scale(VEC1,radius-0.5))
+        vec3Sub(pos,vec3Scale(VEC1,radius)),
+        vec3Add(pos,vec3Scale(VEC1,radius))
     };
     return o;
 }
@@ -141,7 +141,7 @@ HitInfo intersectRayBox(Ray r, Box b) {
     hit.didHit = true;
     hit.dist = tNear;
     hit.point = vec3Add(r.origin,vec3Scale(r.dir,tNear));
-    hit.normal = vec3Normalize(vec3Sub(hit.point,BOX_CENTER(b)));
+    // hit.normal = vec3Normalize(vec3Sub(hit.point,BOX_CENTER(b)));
 
     return hit;
 };

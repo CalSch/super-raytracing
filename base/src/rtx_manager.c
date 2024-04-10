@@ -48,7 +48,7 @@ RTXManager makeRTXManager(int width, int height) {
     // light
     Material lightMat = makeMaterial();
     lightMat.emissionColor = WHITE;
-    lightMat.emissionStrength = 180.0;
+    lightMat.emissionStrength = 400.0;
     sceneAddObject(&rtx.scene, makeSphere(
         (vec3){-35,5,-20}, 4,
         lightMat
