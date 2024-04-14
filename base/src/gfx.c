@@ -93,7 +93,7 @@ vec3 traceRay(RTXManager *rtx, Ray r, Scene scene) {
             // rayColor = vec3Scale(rayColor, 0);
 
             float p = max(max(rayColor.x,rayColor.y),rayColor.z);
-            if (randomFloat()/2 > p) {
+            if (randomFloat() > p) {
                 break;
             }
             rayColor = vec3Scale(rayColor,1.0/p);
