@@ -7,7 +7,7 @@
 Scene makeScene() {
     Scene s;
     // s.skyMaterial.emissionColor = vec3Scale((vec3){73, 134, 227},1.0/255.0);
-    s.skyMaterial.emissionColor = (vec3){0.1,0.12,0.15};
+    s.skyMaterial.emissionColor = (vec3){0.35,0.52,0.65};
     s.skyMaterial.emissionStrength = 1.0;
     s.objectCount = 0;
     s.objects = NULL; // No objects yet, so there's no pointer to the first one
