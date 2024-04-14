@@ -19,9 +19,9 @@ float randomNormalDist() {
 }
 
 vec3 randomDirection() {
-    return (vec3){
+    return vec3Normalize((vec3){
         randomNormalDist(),
         randomNormalDist(),
         randomNormalDist(),
-    };
+    });
 }

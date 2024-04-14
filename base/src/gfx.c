@@ -56,25 +56,26 @@ vec3 traceRay(RTXManager *rtx, Ray r, Scene scene) {
         
         if (hit.didHit) {
             // return obj.mat.diffuseColor;
-            vec3 diffuseDir = vec3Add(hit.normal, randomDirection());
+            vec3 diffuseDir = vec3Normalize(vec3Add(hit.normal, randomDirection()));
             vec3 specularDir = vec3Reflect(r.dir, hit.normal);
             // diffuseDir = specularDir;
             specularDir = lerpVec(specularDir, diffuseDir, obj.mat.roughness);
     
             bool isSpecularBounce = randomFloat() <= obj.mat.specularChance;
             // bool isSpecularBounce = true;
-            r.dir = isSpecularBounce ? specularDir : diffuseDir;
+            r.dir = vec3Normalize(isSpecularBounce ? specularDir : diffuseDir);
+            // return r.dir;
             r.idir = vec3Div(VEC1,r.dir);
-            r.origin = vec3Add(hit.point, vec3Scale(r.dir, 0.01));
+            r.origin = vec3Add(hit.point, vec3Scale(hit.normal, EPSILON));
 
             vec3 emittedLight = vec3Scale(obj.mat.emissionColor, obj.mat.emissionStrength);
 
 
             incomingLight = vec3Add(incomingLight, vec3Mult(emittedLight, rayColor));
 
-            if (vec3Distance(emittedLight) > 2) {
-                break;
-            }
+            // if (vec3Distance(emittedLight) > 2) {
+            //     return WHITE;
+            // } else continue;
             vec3 diffuseColor = obj.mat.diffuseColor;
             if (obj.mat.checker) {
                 if (
@@ -92,22 +93,26 @@ vec3 traceRay(RTXManager *rtx, Ray r, Scene scene) {
 
             // rayColor = vec3Scale(rayColor, 0);
 
-            float p = max(max(rayColor.x,rayColor.y),rayColor.z);
-            if (randomFloat() > p) {
-                break;
-            }
-            rayColor = vec3Scale(rayColor,1.0/p);
+            // Random early exit if the pixel is too dark
+            // float p = max(max(rayColor.x,rayColor.y),rayColor.z);
+            // if (randomFloat() >= p) {
+            //     break;
+            // }
+            // rayColor = vec3Scale(rayColor,1.0/p);
         } else {
+            // return BLACK;
             // emittedLight = emissionColor * emissionStrength * rayColor
-            vec3 emittedLight = vec3Mult(
-                vec3Scale(
-                    scene.skyMaterial.emissionColor,
-                    scene.skyMaterial.emissionStrength
-                ),
-                rayColor
-            );
-            incomingLight = vec3Add(incomingLight, emittedLight);
+            // vec3 emittedLight = vec3Mult(
+            //     vec3Scale(
+            //         scene.skyMaterial.emissionColor,
+            //         scene.skyMaterial.emissionStrength
+            //     ),
+            //     rayColor
+            // );
+            vec3 skyEmission = vec3Scale(scene.skyMaterial.emissionColor,scene.skyMaterial.emissionStrength);
+            incomingLight = vec3Add(incomingLight, vec3Mult(skyEmission, rayColor));
             break;
+            // return rayColor;
         }
     }
 
