@@ -10,7 +10,7 @@
 #include "objects.h"
 #include "gfx.h"
 
-static void dummyCallback(int) {}
+static void dummyCallback(int a) {}
 
 RTXManager makeRTXManager(int width, int height) {
     RTXManager rtx;
