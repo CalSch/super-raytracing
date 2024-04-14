@@ -95,6 +95,23 @@ static inline vec3 vec3Max(vec3 a, vec3 b) {
     };
 }
 
+static inline vec3 vec3Abs(vec3 a) {
+    return (vec3){
+        fabsf(a.x),
+        fabsf(a.y),
+        fabsf(a.z)
+    };
+}
+
+// Convert the components to integers, then back to floats
+static inline vec3 vec3Int(vec3 a) {
+    return (vec3){
+        (float)((int)(a.x)),
+        (float)((int)(a.y)),
+        (float)((int)(a.z))
+    };
+}
+
 #ifdef __cplusplus
 }
 #endif
