@@ -39,6 +39,21 @@ Object makeBox(vec3 bMin, vec3 bMax, Material mat) {
     return o;
 }
 
+vec3 getBoxCenter(Box b) {
+    // Average of the two corners
+    return vec3Scale(vec3Add(b.min,b.max),0.5);
+}
+
+vec3 calcNormalOnBox(vec3 p, Box b) {
+    vec3 c = getBoxCenter(b);
+
+    // The point relative to the box center (Relative Point)
+    vec3 rp = vec3Sub(p,c);
+    vec3 divisor = vec3Abs(vec3Scale(vec3Sub(b.min,b.max),0.5));
+    vec3 normal = vec3Normalize(vec3Int(vec3Scale(vec3Div(rp,divisor),1+EPSILON)));
+
+    return normal;
+}
 
 HitInfo intersectRaySphere(Ray r, Sphere s) {
     HitInfo hit = makeHitInfo();
@@ -141,7 +156,7 @@ HitInfo intersectRayBox(Ray r, Box b) {
     hit.didHit = true;
     hit.dist = tNear;
     hit.point = vec3Add(r.origin,vec3Scale(r.dir,tNear));
-    // hit.normal = vec3Normalize(vec3Sub(hit.point,BOX_CENTER(b)));
+    hit.normal = calcNormalOnBox(hit.point,b);
 
     return hit;
 };
