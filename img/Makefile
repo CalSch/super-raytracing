@@ -27,7 +27,7 @@ $(APP_DIR)/$(TARGET): $(OBJECTS)
 
 -include $(DEPENDENCIES)
 
-.PHONY: all build clean debug release info
+.PHONY: all build clean debug release info profile
 
 build:
 	@mkdir -p $(APP_DIR)
@@ -35,6 +35,10 @@ build:
 
 debug: CXXFLAGS += -DDEBUG -g3 -O0 -ggdb
 debug: all
+
+profile: CXXFLAGS += -pg
+profile: LDFLAGS += -pg
+profile: all
 
 release: CXXFLAGS += -O2
 release: all
