@@ -33,8 +33,6 @@ typedef struct {
     vec3 max;
 } Box;
 
-#define BOX_CENTER(b) vec3Scale(vec3Add(b.min,b.max),0.5)
-
 typedef union {
     Sphere sphere;
     Triangle triangle;
@@ -51,6 +49,8 @@ typedef struct {
 Object makeSphere(vec3 pos, float radius, Material mat);
 Object makeTriangle(vec3 v0, vec3 v1, vec3 v2, Material mat);
 Object makeBox(vec3 bMin, vec3 bMax, Material mat);
+vec3 getBoxCenter(Box b);
+vec3 calcNormalOnBox(vec3 p, Box b);
 HitInfo intersectRaySphere(Ray r, Sphere s);
 HitInfo intersectRayTriangle(Ray r, Triangle s);
 HitInfo intersectRayBox(Ray r, Box b);
