@@ -18,3 +18,7 @@ Heres a render at 500x500, 2 rays per pixel, and 60 samples:
  - add debug controls to PC, so you can change what you see (ex. show normals, no shading)
  - add a scene editor
  - better documentation
+
+# Resources
+ - Very cool Sebastian Lague video: https://www.youtube.com/watch?v=Qz0KTGYJtUk
+ - Box normals: https://blog.johnnovak.net/2016/10/22/the-nim-ray-tracer-project-part-4-calculating-box-normals/
