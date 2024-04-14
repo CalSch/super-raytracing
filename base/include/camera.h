@@ -12,9 +12,15 @@ extern "C" {
 
 typedef struct {
     Transform transform;
+
+    // Horizontal resolution in pixels
     int resX;
+    // Vertical resolution in pixels
     int resY;
+    
     float fov;
+
+    // height / width
     float aspectRatio;
 
     float planeWidth;
