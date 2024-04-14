@@ -11,3 +11,10 @@ I'm hoping to support more like the SNES (probably not but maybe), the PineTime 
 ## Demo
 Heres a render at 500x500, 2 rays per pixel, and 60 samples:  
 ![out](https://github.com/CalSch/super-raytracing/assets/35741152/c976d032-d642-4cbb-aeea-ff4833339034)
+
+# Todo
+ - add a pixel skip mask, so maybe it only traces every other pixel to get a faster response
+ - improve the scene
+ - add debug controls to PC, so you can change what you see (ex. show normals, no shading)
+ - add a scene editor
+ - better documentation
