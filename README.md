@@ -22,3 +22,4 @@ Heres a render at 500x500, 2 rays per pixel, and 60 samples:
 # Resources
  - Very cool Sebastian Lague video: https://www.youtube.com/watch?v=Qz0KTGYJtUk
  - Box normals: https://blog.johnnovak.net/2016/10/22/the-nim-ray-tracer-project-part-4-calculating-box-normals/
+ - Raylib (very cool C graphics library): https://github.com/raysan5/raylib
