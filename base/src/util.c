@@ -11,6 +11,7 @@ vec3 lerpVec(vec3 a, vec3 b, float t) {
     };
 }
 
+// Random float from 0 to 1 with a normal distribution
 float randomNormalDist() {
     float theta = 2 * PI * randomFloat();
     float rho = sqrt(-2 * log(randomFloat()));
