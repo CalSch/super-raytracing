@@ -8,5 +8,7 @@ build/
 out.bmp
 gmon.out
 
-# this is just base/ but different
-cardputer/rtx/
+# this is pretty goofy
+cardputer/*.h
+cardputer/*.ino
+!cardputer/cardputer.ino

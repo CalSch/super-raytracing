@@ -4,9 +4,9 @@ SETLOCAL ENABLEDELAYEDEXPANSION
 :: this is also written by chatgpt so be warned
 
 :: Define source and destination directories
-set INCLUDE_SRC=base\include
-set SRC_SRC=base\src
-set DST_DIR=cardputer\rtx
+set INCLUDE_SRC=..\base\include
+set SRC_SRC=..\base\src
+set DST_DIR=.
 
 :: Create destination directory if it doesn't exist
 if not exist "%DST_DIR%" (

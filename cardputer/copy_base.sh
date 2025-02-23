@@ -6,7 +6,7 @@
 # Define source and destination directories
 INCLUDE_SRC="../base/include"
 SRC_SRC="../base/src"
-DST_DIR="./rtx"
+DST_DIR="."
 
 # Create destination directory if it doesn't exist
 mkdir -p "$DST_DIR"
