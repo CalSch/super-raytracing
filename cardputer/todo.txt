@@ -1,0 +1,7 @@
+not a real todo.txt just a text file
+
+- display current # of samples
+- draw chunks
+- controls
+- maybe a shape and material editor
+- button to make the screen blank to reduce possible burn in
