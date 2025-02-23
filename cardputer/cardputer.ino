@@ -20,6 +20,7 @@ void setup() {
   M5Cardputer.Display.setTextSize(1);
 
   rtx = makeRTXManager(240,135);
+  rotateTransform(&rtx.cam.transform,VEC_X,-0.3);
 }
 
 void loop() {
