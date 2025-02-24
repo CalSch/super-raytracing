@@ -43,32 +43,66 @@ void setup() {
 }
 
 void drawPreview() {
-  unsigned long start=millis();
+  unsigned long startT=millis();
   RTXResetRender(&rtx);
   rtx.config.raysPerPixel=1;
   rtx.config.maxBounces=4;
   //todo: draw every other pixel in 2 passes
+  unsigned long renderT=millis();
   for (int y=0;y<rtx.height;y+=PREVIEW_DOWNSCALE) {
     for (int x=0;x<rtx.width;x+=PREVIEW_DOWNSCALE) {
-      RTXRenderChunk(&rtx,x,y,1,1);
-    }
-  }
-  for (int y=0;y<rtx.height;y+=PREVIEW_DOWNSCALE) {
-    for (int x=0;x<rtx.width;x+=PREVIEW_DOWNSCALE) {
-      RGB rgb=rtx.buf1[x+y*rtx.width];
+      RGB rgb=RTXRenderPixel(&rtx,x,y,(RGB){0,0,0},1.0);
       auto color = M5Cardputer.Display.color888(rgb.r,rgb.g,rgb.b);
       M5Cardputer.Display.fillRect(x,y,PREVIEW_DOWNSCALE,PREVIEW_DOWNSCALE,color);
     }
   }
   rtx.currentSamples++;
+  unsigned long endT=millis();
+  M5Cardputer.Display.drawString(format_text("r=%u d=%u t=%u",renderT-startT,endT-renderT,endT-startT),0,0);
+}
+
+void drawNormal() {
+  unsigned long start=millis();
+  rtx.config.raysPerPixel=1;
+  rtx.config.maxBounces=8;
+  //todo: draw every other pixel in 2 passes
+  RTXRender(&rtx);
+  for (int y=0;y<rtx.height;y++) {
+    for (int x=0;x<rtx.width;x++) {
+      RGB rgb=rtx.buf1[x+y*rtx.width];
+      auto color = M5Cardputer.Display.color888(rgb.r,rgb.g,rgb.b);
+      M5Cardputer.Display.fillRect(x,y,1,1,color);
+    }
+  }
   unsigned long end=millis();
   M5Cardputer.Display.drawString(format_text("%u ms",end-start),0,0);
 }
 
+unsigned long timeSincePreview;
 void loop() {
   // int c = random(255);
   // M5Cardputer.Display.fillRect(0,0,240,135,c);
   // RTXRender(&rtx);
-
-  drawPreview();
+  M5Cardputer.update();
+  Keyboard_Class::KeysState status = M5Cardputer.Keyboard.keysState();
+  bool rerender=false;
+  for (char c : status.word) {
+    if (c=='e')
+      rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.forwards,2.0));
+    if (c=='s')
+      rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.forwards,-2.0));
+    if (c=='a')
+      rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.right,-2.0));
+    if (c=='d')
+      rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.right,2.0));
+    rerender=true;
+  }
+  if (rerender) {
+    drawPreview();
+    RTXResetRender(&rtx);
+    timeSincePreview=millis();
+  }
+  if (millis()-timeSincePreview > 1000) {
+    drawNormal();
+  }
 }
