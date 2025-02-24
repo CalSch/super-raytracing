@@ -44,6 +44,7 @@ RTXManager makeRTXManager(int width, int height);
 
 void RTXTick(RTXManager *rtx);
 void RTXResetRender(RTXManager *rtx);
+RGB RTXRenderPixel(RTXManager *rtx, int x, int y, RGB oldColor, float weight);
 void RTXRenderChunk(RTXManager *rtx, int cx, int cy, int cw, int ch);
 void RTXRender(RTXManager *rtx);
 

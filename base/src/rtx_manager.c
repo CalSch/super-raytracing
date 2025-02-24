@@ -135,42 +135,46 @@ void RTXResetRender(RTXManager *rtx) {
     }
 }
 
+RGB RTXRenderPixel(RTXManager *rtx, int x, int y, RGB oldColor, float weight) {
+    vec3 color = BLACK;
+
+    for (int j=0;j<rtx->config.raysPerPixel;j++) {
+        Ray r = getCameraRay(rtx->cam,(float)x + randomFloat(), (float)y + randomFloat()); // Add randomness for anti-aliasing
+        color = vec3Add(color,vec3Scale(traceRay(rtx,r,rtx->scene),1.0/(float)rtx->config.raysPerPixel));
+    }
+
+    vec3 rgb = {
+        (color.x * 255.0),
+        (color.y * 255.0),
+        (color.z * 255.0)
+    };
+    // bool print = (x==47 && y==50);
+    // if (print)
+    //     printf("color=(%f,%f,%f)\n",rgb.x,rgb.y,rgb.z);
+
+    // if (print)
+    //     printf("old color=(%d,%d,%d)\n",oldColor.r,oldColor.g,oldColor.b);
+
+    RGB newColor = {
+        (unsigned char)(clamp(lerp(oldColor.r, rgb.x, weight),0,255)),
+        (unsigned char)(clamp(lerp(oldColor.g, rgb.y, weight),0,255)),
+        (unsigned char)(clamp(lerp(oldColor.b, rgb.z, weight),0,255)),
+    };
+    // if (print)
+    //     printf("new color=(%d,%d,%d)\n",newColor.r,newColor.g,newColor.b);
+
+
+    return newColor;
+}
+
 void RTXRenderChunk(RTXManager *rtx, int cx, int cy, int cw, int ch) {
     int i = cx + cy*rtx->width;
     float weight = min(1.0/((float)rtx->currentSamples+1.0),1.0);
     printf("sample=%d\nweight=%f\n",rtx->currentSamples,weight);
     for (int y=cy; y<min(rtx->height, cy+ch); y++) {
         for (int x=cx; x<min(rtx->width, cx+cw); x++) {
-            vec3 color = BLACK;
-
-            for (int j=0;j<rtx->config.raysPerPixel;j++) {
-                Ray r = getCameraRay(rtx->cam,(float)x + randomFloat(), (float)y + randomFloat()); // Add randomness for anti-aliasing
-                color = vec3Add(color,vec3Scale(traceRay(rtx,r,rtx->scene),1.0/(float)rtx->config.raysPerPixel));
-            }
-
-            vec3 rgb = {
-                (color.x * 255.0),
-                (color.y * 255.0),
-                (color.z * 255.0)
-            };
-            // bool print = (x==47 && y==50);
-            // if (print)
-            //     printf("color=(%f,%f,%f)\n",rgb.x,rgb.y,rgb.z);
-
             RGB oldColor = rtx->buf1[i];
-            // if (print)
-            //     printf("old color=(%d,%d,%d)\n",oldColor.r,oldColor.g,oldColor.b);
-
-            RGB newColor = {
-                (unsigned char)(clamp(lerp(oldColor.r, rgb.x, weight),0,255)),
-                (unsigned char)(clamp(lerp(oldColor.g, rgb.y, weight),0,255)),
-                (unsigned char)(clamp(lerp(oldColor.b, rgb.z, weight),0,255)),
-            };
-            // if (print)
-            //     printf("new color=(%d,%d,%d)\n",newColor.r,newColor.g,newColor.b);
-
-
-            rtx->buf1[i] = newColor;
+            rtx->buf1[i] = RTXRenderPixel(rtx,x,y,oldColor,weight);
             i++;
         }
         rtx->lineRenderCallback(y);
