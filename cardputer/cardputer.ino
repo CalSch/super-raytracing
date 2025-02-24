@@ -30,7 +30,7 @@ void setup() {
   Serial.println("hi");
 
   auto cfg = M5.config();
-  M5Cardputer.begin(cfg,true);
+  M5Cardputer.begin(cfg, true);
 
   M5Cardputer.Display.setRotation(1);
   M5Cardputer.Display.setTextColor(TFT_WHITE);
@@ -38,8 +38,8 @@ void setup() {
   M5Cardputer.Display.setTextFont(&fonts::AsciiFont8x16);
   M5Cardputer.Display.setTextSize(1);
 
-  rtx = makeRTXManager(240,135);
-  rotateTransform(&rtx.cam.transform,VEC_X,-0.3);
+  rtx = makeRTXManager(240, 135);
+  rotateTransform(&rtx.cam.transform, VEC_X, -0.3);
 }
 
 void drawPreview() {
@@ -47,6 +47,7 @@ void drawPreview() {
   RTXResetRender(&rtx);
   rtx.config.raysPerPixel=1;
   rtx.config.maxBounces=4;
+  //todo: draw every other pixel in 2 passes
   for (int y=0;y<rtx.height;y+=PREVIEW_DOWNSCALE) {
     for (int x=0;x<rtx.width;x+=PREVIEW_DOWNSCALE) {
       RTXRenderChunk(&rtx,x,y,1,1);
@@ -69,13 +70,5 @@ void loop() {
   // M5Cardputer.Display.fillRect(0,0,240,135,c);
   // RTXRender(&rtx);
 
-  // for (int y=0;y<rtx.height;y++) {
-  //   for (int x=0;x<rtx.width;x++) {
-  //     RGB rgb=rtx.buf1[x+y*rtx.width];
-  //     auto color = M5Cardputer.Display.color888(rgb.r,rgb.g,rgb.b);
-  //     M5Cardputer.Display.fillRect(x,y,1,1,color);
-  //   }
-  // }
   drawPreview();
-
 }
