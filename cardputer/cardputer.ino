@@ -45,10 +45,9 @@ void setup() {
 void drawPreview() {
   unsigned long startT=millis();
   RTXResetRender(&rtx);
-  rtx.config.raysPerPixel=1;
+  rtx.config.raysPerPixel=2;
   rtx.config.maxBounces=4;
   //todo: draw every other pixel in 2 passes
-  unsigned long renderT=millis();
   for (int y=0;y<rtx.height;y+=PREVIEW_DOWNSCALE) {
     for (int x=0;x<rtx.width;x+=PREVIEW_DOWNSCALE) {
       RGB rgb=RTXRenderPixel(&rtx,x,y,(RGB){0,0,0},1.0);
@@ -58,7 +57,7 @@ void drawPreview() {
   }
   rtx.currentSamples++;
   unsigned long endT=millis();
-  M5Cardputer.Display.drawString(format_text("r=%u d=%u t=%u",renderT-startT,endT-renderT,endT-startT),0,0);
+  M5Cardputer.Display.drawString(format_text("%ums",endT-startT),0,0);
 }
 
 void drawNormal() {
