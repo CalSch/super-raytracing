@@ -94,26 +94,33 @@ void loop() {
   Keyboard_Class::KeysState status = M5Cardputer.Keyboard.keysState();
   bool rerender=false;
   for (char c : status.word) {
-    if (c=='e')
-      rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.forwards,2.0));
-    if (c=='s')
-      rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.forwards,-2.0));
-    if (c=='a')
-      rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.right,-2.0));
-    if (c=='d')
-      rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.right,2.0));
-    if (c=='w')
-      rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.up,2.0));
-    if (c=='r')
-      rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.up,-2.0));
-    if (c==';') // up arrow kinda
-      rotateTransform(&rtx.cam.transform,rtx.cam.transform.right,-0.1);
-    if (c=='.') // down arrow kinda
-      rotateTransform(&rtx.cam.transform,rtx.cam.transform.right,0.1);
-    if (c==',') // left arrow kinda
-      rotateTransform(&rtx.cam.transform,rtx.cam.transform.up,-0.1);
-    if (c=='/') // right arrow kinda
-      rotateTransform(&rtx.cam.transform,rtx.cam.transform.up,0.1);
+    if (!screenSaver) {
+
+      if (c=='e')
+        rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.forwards,2.0));
+      if (c=='s')
+        rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.forwards,-2.0));
+      if (c=='a')
+        rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.right,-2.0));
+      if (c=='d')
+        rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.right,2.0));
+      if (c=='w')
+        rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.up,2.0));
+      if (c=='r')
+        rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.up,-2.0));
+      if (c==';') // up arrow kinda
+        rotateTransform(&rtx.cam.transform,rtx.cam.transform.right,-0.1);
+      if (c=='.') // down arrow kinda
+        rotateTransform(&rtx.cam.transform,rtx.cam.transform.right,0.1);
+      if (c==',') // left arrow kinda
+        rotateTransform(&rtx.cam.transform,rtx.cam.transform.up,-0.1);
+      if (c=='/') // right arrow kinda
+        rotateTransform(&rtx.cam.transform,rtx.cam.transform.up,0.1);
+      if (c=='l') // left of the up arrow kinda. rolls left
+        rotateTransform(&rtx.cam.transform,rtx.cam.transform.forwards,-0.1);
+      if (c=='\'') // right of the up arrow kinda. rolls right
+        rotateTransform(&rtx.cam.transform,rtx.cam.transform.forwards,0.1);
+    }
     rerender=true;
     if (c=='b') {
       rerender=false;
