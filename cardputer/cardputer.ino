@@ -26,6 +26,15 @@ char* format_text(const char *format, ...) {
     }
 }
 
+void drawAxes(int cx, int cy, int size) {
+  vec3 up = rtx.cam.transform.up;
+  vec3 right = rtx.cam.transform.right;
+  vec3 forwards = rtx.cam.transform.forwards;
+  M5Cardputer.Display.drawLine(cx,cy,cx+size*right.x,   cy-size*right.y,TFT_RED);
+  M5Cardputer.Display.drawLine(cx,cy,cx+size*up.x,      cy-size*up.y,TFT_GREEN);
+  M5Cardputer.Display.drawLine(cx,cy,cx+size*forwards.x,cy-size*forwards.y,TFT_BLUE);
+}
+
 void setup() {
   Serial.begin(921600);
   Serial.println("hi");
@@ -57,6 +66,7 @@ void drawPreview() {
     }
   }
   rtx.currentSamples++;
+  drawAxes(240/2,135/2,20);
   unsigned long endT=millis();
   M5Cardputer.Display.drawString(format_text("%ums",endT-startT),0,0);
 }
