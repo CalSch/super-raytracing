@@ -130,6 +130,11 @@ void loop() {
         rotateTransform(&rtx.cam.transform,rtx.cam.transform.forwards,-0.1);
       if (c=='\'') // right of the up arrow kinda. rolls right
         rotateTransform(&rtx.cam.transform,rtx.cam.transform.forwards,0.1);
+      if (c=='[')
+        rtx.cam.fov*=1.1;
+      if (c==']')
+        rtx.cam.fov/=1.1;
+      updateCameraFOV(&rtx.cam,rtx.cam.fov);
     }
     rerender=true;
     if (c=='b') {
