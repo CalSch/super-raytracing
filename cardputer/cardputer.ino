@@ -102,6 +102,10 @@ void loop() {
       rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.right,-2.0));
     if (c=='d')
       rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.right,2.0));
+    if (c=='w')
+      rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.up,2.0));
+    if (c=='r')
+      rtx.cam.transform.pos=vec3Add(rtx.cam.transform.pos,vec3Scale(rtx.cam.transform.up,-2.0));
     if (c==';') // up arrow kinda
       rotateTransform(&rtx.cam.transform,rtx.cam.transform.right,-0.1);
     if (c=='.') // down arrow kinda
