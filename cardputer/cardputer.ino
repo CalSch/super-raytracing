@@ -96,17 +96,14 @@ void drawNormal()
   rtx.config.maxBounces = 8;
   // todo: draw every other pixel in 2 passes
   RTXRender(&rtx);
-  if (!screenSaver)
+  M5Cardputer.Display.setBrightness(100);
+  for (int y = 0; y < rtx.height; y++)
   {
-    M5Cardputer.Display.setBrightness(100);
-    for (int y = 0; y < rtx.height; y++)
+    for (int x = 0; x < rtx.width; x++)
     {
-      for (int x = 0; x < rtx.width; x++)
-      {
-        RGB rgb = rtx.buf1[x + y * rtx.width];
-        auto color = M5Cardputer.Display.color888(rgb.r, rgb.g, rgb.b);
-        M5Cardputer.Display.fillRect(x, y, 1, 1, color);
-      }
+      RGB rgb = rtx.buf1[x + y * rtx.width];
+      auto color = M5Cardputer.Display.color888(rgb.r, rgb.g, rgb.b);
+      M5Cardputer.Display.fillRect(x, y, 1, 1, color);
     }
   }
   else
@@ -169,13 +166,13 @@ void loop()
       screenSaver = !status.fn;
     }
   }
-  if (rerender)
+  if (rerender && !screenSaver)
   {
     drawPreview();
     RTXResetRender(&rtx);
     timeSincePreview = millis();
   }
-  if (millis() - timeSincePreview > 1000)
+  if (millis() - timeSincePreview > 1000 && !screenSaver)
   {
     drawNormal();
   }
