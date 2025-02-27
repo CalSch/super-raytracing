@@ -50,6 +50,16 @@ void setup() {
 
   rtx = makeRTXManager(240, 135);
   rotateTransform(&rtx.cam.transform, VEC_X, -0.3);
+
+  xTaskCreatePinnedToCore(task, "rendertask", 6000, NULL, 1, NULL, 0);
+}
+
+void task( void* parameter ) {
+  while (1) {
+
+    Serial.println("task");
+    delay(1000);
+  }
 }
 
 void drawPreview() {
