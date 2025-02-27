@@ -122,9 +122,6 @@ void drawNormal()
 unsigned long timeSincePreview;
 void loop()
 {
-  // int c = random(255);
-  // M5Cardputer.Display.fillRect(0,0,240,135,c);
-  // RTXRender(&rtx);
   M5Cardputer.update();
   Keyboard_Class::KeysState status = M5Cardputer.Keyboard.keysState();
   bool rerender = false;
