@@ -59,8 +59,10 @@ void setup()
   xTaskCreatePinnedToCore(task, "rendertask", 6000, NULL, 1, NULL, 0);
 }
 
-void task( void* parameter ) {
-  while (1) {
+void task(void *parameter)
+{
+  while (1)
+  {
 
     Serial.println("task");
     delay(1000);
@@ -106,11 +108,11 @@ void drawNormal()
       M5Cardputer.Display.fillRect(x, y, 1, 1, color);
     }
   }
-  else
-  {
-    M5Cardputer.Display.clearDisplay(TFT_BLACK);
-    M5Cardputer.Display.setBrightness(2);
-  }
+  // else
+  // {
+  //   M5Cardputer.Display.clearDisplay(TFT_BLACK);
+  //   M5Cardputer.Display.setBrightness(2);
+  // }
   unsigned long end = millis();
   M5Cardputer.Display.drawString(format_text("%d", rtx.currentSamples), 0, 0);
   M5Cardputer.Display.drawString(format_text("%u ms", end - start), 0, 12);
@@ -155,7 +157,6 @@ void loop()
         rtx.cam.fov *= 1.1;
       if (c == ']')
         rtx.cam.fov /= 1.1;
-      if ()
 
       updateCameraFOV(&rtx.cam, rtx.cam.fov);
     }
