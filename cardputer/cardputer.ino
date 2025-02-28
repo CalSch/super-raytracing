@@ -52,8 +52,10 @@ void setup() {
   xTaskCreatePinnedToCore(task, "rendertask", 6000, NULL, 1, NULL, 0);
 }
 
-void task( void* parameter ) {
-  while (1) {
+void task(void *parameter)
+{
+  while (1)
+  {
 
     Serial.println("task");
     delay(1000);
