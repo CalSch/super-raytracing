@@ -3,6 +3,7 @@
 #include <random>
 
 #define PREVIEW_DOWNSCALE 6
+#define FOV_MULTIPLIER 4.5
 
 RTXManager rtx;
 bool screenSaver = false;
@@ -130,7 +131,7 @@ void loop()
     {
 
       if (c == 'e')
-        rtx.cam.transform.pos = vec3Add(rtx.cam.transform.pos, vec3Scale(rtx.cam.transform.forwards, 2.0));
+        rtx.cam.transform.pos = vec3Add(rtx.cam.transform.pos, vec3Scale(rtx.cam.transform.forwards, 2.0)); // we could set this to fov/45 or something
       if (c == 's')
         rtx.cam.transform.pos = vec3Add(rtx.cam.transform.pos, vec3Scale(rtx.cam.transform.forwards, -2.0));
       if (c == 'a')
@@ -142,17 +143,17 @@ void loop()
       if (c == 'r')
         rtx.cam.transform.pos = vec3Add(rtx.cam.transform.pos, vec3Scale(rtx.cam.transform.up, -2.0));
       if (c == ';') // up arrow kinda
-        rotateTransform(&rtx.cam.transform, rtx.cam.transform.right, -0.1);
+        rotateTransform(&rtx.cam.transform, rtx.cam.transform.right, -rtx.cam.fov / FOV_MULTIPLIER);
       if (c == '.') // down arrow kinda
-        rotateTransform(&rtx.cam.transform, rtx.cam.transform.right, 0.1);
-      if (c == ',' || millis % 30000 <= 100) // left arrow kinda
-        rotateTransform(&rtx.cam.transform, rtx.cam.transform.up, -0.1);
-      if (c == '/' || millis % 60000 <= 100) // right arrow kinda
-        rotateTransform(&rtx.cam.transform, rtx.cam.transform.up, 0.1);
+        rotateTransform(&rtx.cam.transform, rtx.cam.transform.right, rtx.cam.fov / FOV_MULTIPLIER);
+      if (c == ',' || millis() % 30000 <= 100) // left arrow kinda
+        rotateTransform(&rtx.cam.transform, rtx.cam.transform.up, -rtx.cam.fov / FOV_MULTIPLIER);
+      if (c == '/' || millis() % 60000 <= 100) // right arrow kinda
+        rotateTransform(&rtx.cam.transform, rtx.cam.transform.up, rtx.cam.fov / FOV_MULTIPLIER);
       if (c == 'l') // left of the up arrow kinda. rolls left
-        rotateTransform(&rtx.cam.transform, rtx.cam.transform.forwards, -0.1);
+        rotateTransform(&rtx.cam.transform, rtx.cam.transform.forwards, -rtx.cam.fov / FOV_MULTIPLIER);
       if (c == '\'') // right of the up arrow kinda. rolls right
-        rotateTransform(&rtx.cam.transform, rtx.cam.transform.forwards, 0.1);
+        rotateTransform(&rtx.cam.transform, rtx.cam.transform.forwards, rtx.cam.fov / FOV_MULTIPLIER);
       if (c == '[')
         rtx.cam.fov *= 1.1;
       if (c == ']')
